@@ -1,0 +1,16 @@
+{
+  "name": "holo-wrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/Hololive.js",
+    "test": "node test/app.js"
+  },
+  "keywords": [],
+  "author": "KukangDev",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
