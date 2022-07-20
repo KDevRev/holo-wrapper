@@ -1,2 +1,2 @@
 # holo-wrapper
-a holo wrapper repository (not done yet).
+a hololive fandom web wrapper (not done yet).
