@@ -1,4 +1,5 @@
 const axios = require("axios");
+const Utils = require("./Utils");
 
 class Hololive {
   constructor(charName) {
@@ -21,21 +22,62 @@ class Hololive {
     return data.image.imageserving;
   }
 
-  getDetail() {
-    return new Promise(async (resolve, reject) => {
-      let talent = await this.#getTalent(this.opt.name);
-      this.#_fetch(`action=parse&prop=properties&pageid=${talent.id}&format=json`)
-        .then((body) => {
-          let data = body.parse.properties[0]["*"];
-          // JSON.parse(data)[0].data.forEach((r) => {
-          //   console.log(r.data.value);
-          // });
-          resolve(JSON.parse(data)[0].data);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  async getDetail() {
+    let talent = await this.#getTalent(this.opt.name);
+    let body = await this.#_fetch(`action=parse&prop=properties&pageid=${talent.id}&format=json`);
+
+    if (body.error) {
+      return { error: "No data found" };
+    }
+
+    let obj = {};
+    let parsed = body.parse.properties.filter((res) => res.name === "infoboxes");
+
+    if (parsed.length >= 1) {
+      let result = JSON.parse(body.parse.properties.filter((res) => res.name === "infoboxes")[0]["*"])[0];
+
+      for (let r of result.data) {
+        if (r.type === "title") {
+          obj["name"] = r.data.value;
+        } else if (r.type === "image") {
+          r.data.forEach((res) => {
+            delete res["caption"];
+            delete res["item-name"];
+            delete res["source"];
+          });
+          obj["images"] = r.data;
+        } else if (r.type === "group") {
+          r.data.value
+            .filter((res) => res.type === "data")
+            .forEach((dt) => {
+              let name = dt.data.source;
+              let dtvalue = dt.data.value;
+
+              // character_designer yg belum
+
+              if (name === "nick_name") {
+                obj[name] = dtvalue.split("<br>");
+              } else if (name === "channel" || name === "social_media" || name === "official_website") {
+                obj[name] = Utils.findURL(dtvalue);
+              } else if (
+                name === "affiliation" ||
+                name === "age" ||
+                name === "birthday" ||
+                name === "height" ||
+                name === "weight" ||
+                name === "debut_date"
+              ) {
+                obj[name] = dtvalue.replace(/<[^>]*>|(&#91;.&#..;)/gm, "");
+              } else {
+                obj[name] = dtvalue;
+              }
+            });
+        }
+      }
+      return obj;
+    } else {
+      return { error: "Data invalid or data was not a vtuber info" };
+    }
   }
 
   #_fetch(params) {
