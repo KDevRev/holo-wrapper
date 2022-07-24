@@ -32,6 +32,6 @@ export class Hololive {
   opt: {
     name: string;
   }
-  getDetail: function(): ResponseDetail;
-  getPfp: function(): string;
+  getDetail: function(): Promise<ResponseDetail>;
+  getPfp: function(): Promise<string>;
 }
