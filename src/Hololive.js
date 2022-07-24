@@ -4,7 +4,7 @@ const Utils = require("./Utils");
 class Hololive {
   constructor(charName) {
     this.baseURL = "https://virtualyoutuber.fandom.com";
-    this.opt = { name: charName, id: 0 };
+    this.opt = { name: charName };
   }
 
   async #getTalent() {
@@ -45,7 +45,7 @@ class Hololive {
             delete res["item-name"];
             delete res["source"];
           });
-          obj["images"] = r.data;
+          obj["image"] = r.data;
         } else if (r.type === "group") {
           r.data.value
             .filter((res) => res.type === "data")
@@ -96,4 +96,4 @@ class Hololive {
   }
 }
 
-module.exports = Hololive;
+module.exports = { Hololive };

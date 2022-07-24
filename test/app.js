@@ -1,4 +1,4 @@
-const Hololive = require("../index");
+const { Hololive } = require("../index");
 const holo = new Hololive("kobo kanaeru");
 
 (async () => {
