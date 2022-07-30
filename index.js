@@ -1,3 +1,3 @@
-const Hololive = require("./src/Hololive");
+const { Hololive } = require("./src/Hololive");
 
-module.exports = Hololive;
+module.exports = { Hololive };

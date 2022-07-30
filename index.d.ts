@@ -11,8 +11,8 @@ interface ResponseDetail {
   image: ResponseImage[];
   original_name: string;
   nick_name: string[];
-  debut_date: string;
-  character_designer: string;
+  debut_date: Date;
+  character_designer: string[];
   affiliation: string;
   channel: string[];
   social_media: string[];
@@ -32,6 +32,8 @@ export class Hololive {
   opt: {
     name: string;
   }
+  data?: ResponseDetail | undefined;
+  init: function(): Promise<Hololive>;
   getDetail: function(): Promise<ResponseDetail>;
-  getPfp: function(): Promise<string>;
+  getRestPfp: function(): Promise<string>;
 }

@@ -1,8 +1,9 @@
 const { Hololive } = require("../index");
-const holo = new Hololive("kobo kanaeru");
 
 (async () => {
-  // the result would be a json object data, not wrapped yet
-  let detail = await holo.getDetail();
-  console.log(detail);
+  const kobo = await new Hololive("kobo kanaeru").init();
+  console.log(kobo.data.name);
+
+  const gura = await new Hololive("gawr gura").init();
+  console.log(gura.data.name);
 })();
