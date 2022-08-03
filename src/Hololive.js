@@ -12,13 +12,13 @@ class Hololive {
     await this.getDetail();
     return this;
   }
-  async #getTalent() {
+  #getTalent = async () => {
     let data = await this.#_fetch(`action=query&format=json&list=search&srsearch=${this.opt.name}&srlimit=1`);
     return {
       name: data.query.search[0].title,
       id: data.query.search[0].pageid
     };
-  }
+  };
 
   async getRestPfp() {
     let talent = await this.#getTalent(this.opt.name);
@@ -83,7 +83,7 @@ class Hololive {
     }
   }
 
-  #_fetch(params) {
+  #_fetch = (params) => {
     return new Promise((resolve, reject) => {
       axios
         .get(`${this.baseURL}/api.php?${params}`)
@@ -96,7 +96,7 @@ class Hololive {
           });
         });
     });
-  }
+  };
 }
 
 module.exports = { Hololive };
