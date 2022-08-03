@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/Hololive.js",
+    "docs:gen": "typedoc index.d.ts",
     "test": "node test/app.js"
   },
   "keywords": [],
@@ -12,5 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.27.2"
+  },
+  "devDependencies": {
+    "typedoc": "^0.23.10",
+    "typescript": "^4.7.4"
   }
 }
