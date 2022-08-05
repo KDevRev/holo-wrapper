@@ -1,14 +1,29 @@
-interface ResponseImage {
+interface ProfileImage {
   url: string;
   name: string;
   key: string;
-  alt: any;
+  alt: unknown;
   isVideo: boolean;
+}
+
+interface GalleryImagesInfo {
+  url: string;
+  name: string;
+  key: string;
+  alt?: string | undefined;
+}
+interface GalleryImages {
+  talent: GalleryImagesInfo[];
+  artworks: GalleryImagesInfo[];
+  fan_arts: GalleryImagesInfo[];
 }
 
 interface ResponseDetail {
   name: string;
-  image: ResponseImage[];
+  images: {
+    profile: ProfileImage[];
+    gallery: GalleryImages;
+  };
   original_name: string;
   nick_name: string[];
   debut_date: Date;
@@ -31,9 +46,10 @@ export class Hololive {
   baseURL: string;
   opt: {
     name: string;
-  }
+  };
   data?: ResponseDetail | undefined;
-  init: function(): Promise<Hololive>;
-  getDetail: function(): Promise<ResponseDetail>;
-  getRestPfp: function(): Promise<string>;
+  init(): Promise<Hololive>;
+  getDetail(): Promise<ResponseDetail>;
+  getGallery(): Promise<GalleryImages>;
+  getRestPfpURL(): Promise<string>;
 }
